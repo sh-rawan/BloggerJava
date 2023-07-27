@@ -52,6 +52,7 @@ public class CommentService implements CommentServiceInter {
     @Override
     public List<CommentDto> getAllComment(long postId) {
         List<Comment> comments = commentRepository.findByPostId(postId);
+        // .orElseThrow(() -> new ResourceNotFound("Comment", "Id", "commentId"));
         return comments.stream().map(comment -> mapCommentDto(comment)).collect(Collectors.toList());
     }
 
