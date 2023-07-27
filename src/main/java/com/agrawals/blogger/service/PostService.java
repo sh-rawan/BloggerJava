@@ -2,6 +2,7 @@ package com.agrawals.blogger.service;
 
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +16,18 @@ import com.agrawals.blogger.entity.Post;
 import com.agrawals.blogger.exception.ResourceNotFound;
 import com.agrawals.blogger.repository.PostsRepository;
 
+import lombok.Data;
+
+@Data
 @Service
 public class PostService implements PostServiceInter {
     private PostsRepository postsRepository;
+    private final ModelMapper mapper;
 
     @Autowired
-    public PostService(PostsRepository postsRepository) {
+    public PostService(PostsRepository postsRepository, ModelMapper mapper) {
         this.postsRepository = postsRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -77,20 +83,11 @@ public class PostService implements PostServiceInter {
     }
 
     private PostDto mapToDto(Post post) {
-        PostDto postDto = new PostDto();
-        postDto.setContent(post.getContent());
-        postDto.setId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        return postDto;
+        return mapper.map(post, PostDto.class);
     }
 
     private Post mapToEntity(PostDto postDto) {
-        Post post = new Post();
-        post.setContent(postDto.getContent());
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        return post;
+        return mapper.map(postDto, Post.class);
     }
 
 }
