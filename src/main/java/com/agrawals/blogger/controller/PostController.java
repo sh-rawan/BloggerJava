@@ -18,6 +18,8 @@ import com.agrawals.blogger.dto.PostResponse;
 import com.agrawals.blogger.service.PostServiceInter;
 import com.agrawals.blogger.utils.AppConstants;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
@@ -42,12 +44,12 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@PathVariable Long id, @RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> updatePost(@PathVariable Long id, @Valid @RequestBody PostDto postDto) {
         return ResponseEntity.ok(postServiceInter.updatePost(id, postDto));
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
         return new ResponseEntity<PostDto>(postServiceInter.createPost(postDto), HttpStatus.CREATED);
     }
 
