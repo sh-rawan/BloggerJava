@@ -1,0 +1,11 @@
+-- user table password and username same
+INSERT INTO `blogger`.`users` (`id`, `email`, `name`, `password`, `username`) VALUES ('1', 'shrawan@gmail.com', 'shrawan', '$2a$10$k/VMzutp4sUglLjeCB9/fe5Wt89xpNqJl1UBN0FzU1YQQvfNd8.Oq', 'shrawan');
+INSERT INTO `blogger`.`users` (`id`, `email`, `name`, `password`, `username`) VALUES ('2', 'admin@gmail.com', 'admin', '$2a$10$B.GSjDscuCkwhBYDsxIlW.TOveD66KiwL8HorLYdZGXv3dMipZDHm', 'admin');
+
+-- roles table
+INSERT INTO `blogger`.`roles` (`id`, `name`) VALUES ('1', 'ROLE_USER');
+INSERT INTO `blogger`.`roles` (`id`, `name`) VALUES ('2', 'ROLE_ADMIN');
+
+-- users_roles table
+INSERT INTO `blogger`.`users_roles` (`user_id`, `roles_id`) VALUES ('1', '1');
+INSERT INTO `blogger`.`users_roles` (`user_id`, `roles_id`) VALUES ('2', '2');

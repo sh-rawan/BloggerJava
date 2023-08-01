@@ -1,5 +1,6 @@
 package com.agrawals.blogger.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
 				webRequest.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ErrorDetails> handleAccessDeniedException(AccessDeniedException exception,
+			WebRequest webRequest) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+				webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler(BlogApiException.class)
