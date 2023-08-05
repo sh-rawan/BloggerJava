@@ -18,6 +18,7 @@ import com.agrawals.blogger.entity.User;
 import com.agrawals.blogger.exception.BlogApiException;
 import com.agrawals.blogger.repository.RoleRepository;
 import com.agrawals.blogger.repository.UserRepository;
+import com.agrawals.blogger.security.JwtTokenProvider;
 
 @Service
 public class AuthService implements AuthServiceInter {
@@ -25,6 +26,7 @@ public class AuthService implements AuthServiceInter {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
     public String login(LoginDto loginDto) {
@@ -32,15 +34,18 @@ public class AuthService implements AuthServiceInter {
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return "User Logged-in successfully!!";
+
+        String token = jwtTokenProvider.generateToken(auth);
+        return token;
     }
 
     public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository,
-            RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+            RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public String register(RegisterDto registerDto) {
